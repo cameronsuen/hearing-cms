@@ -2,14 +2,14 @@ import React, { PropTypes } from 'react'
 import { Provider } from 'react-redux'
 import { Router, Route, browserHistory } from 'react-router'
 import App from './App'
-import LoginForm from './LoginForm'
+import PopulatedLoginForm from '../containers/PopulatedLoginForm'
 import ContentPane from './ContentPane'
 
 const Root = ({ store }) => (
     <Provider store={store}>
         <Router history={browserHistory}>
             <Route path="/" component={App}>
-                <Route path="login" component={LoginForm} />
+                <Route path="login" component={PopulatedLoginForm} />
                 <Route path="validate" component={ContentPane} />
             </Route>
         </Router>

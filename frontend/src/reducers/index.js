@@ -1,6 +1,8 @@
 import active from './active'
 import counter from './counter'
 import samples from './samples'
+import { combineReducers } from 'redux'
+import { reducer as formReducers } from 'redux-form'
 
 const initialState = {
     samples: [{
@@ -14,7 +16,7 @@ const initialState = {
 }
 
 // the root reducer delegating actions to different reducers
-const validationApp = (state=initialState, action) => {
+const validationReducer = (state=initialState, action) => {
     switch (action.type) {
         case 'RECEIVE_SAMPLES':
             return {
@@ -31,5 +33,7 @@ const validationApp = (state=initialState, action) => {
         default: return state
     }
 }
+
+const validationApp = combineReducers({validationReducer, form: formReducers })
 
 export default validationApp

@@ -1,5 +1,6 @@
 import React from 'react'
 import thunkMiddleware from 'redux-thunk'
+import api from './middleware/api'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
@@ -11,7 +12,10 @@ let store = createStore(
     validationApp,
     applyMiddleware(
         // This middleware allows us to dispatch functions as actions
-        thunkMiddleware
+        thunkMiddleware,
+
+        // This middleware allows us to make API requests easily
+        api
     )
 )
 

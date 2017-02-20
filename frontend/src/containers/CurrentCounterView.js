@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { login } from '../actions'
 import CounterView from '../components/CounterView'
 
 const mapStateToProps = (state) => {

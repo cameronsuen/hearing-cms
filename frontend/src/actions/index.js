@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import { CALL_API } from '../middleware/api'
 
 export const requestSamples = () => {
     return {
@@ -18,6 +19,35 @@ export const completeValidation = (id, json) => {
     return {
         type: 'COMPLETE_VALIDATION',
         id: id
+    }
+}
+
+// Login with the credentials given
+/*export const login = (credentials) => {
+    return (dispatch) => {    
+        
+        // Do a POST request to login 
+        return fetch('http://localhost/authenticate', {method: 'POST', mode: 'cors'})
+            .then(response => response.json())
+            .then(json => dispatch(loggedIn(json)))
+    }
+}*/
+
+export const login = credentials => (
+    [CALL_API]: {
+        types: [ 'REDIRECT_TO_HOME', 'REDIRECT_TO_LOGIN' ],
+        endpoint: '/authenticate',
+        method: 'POST',
+        body: credentials,
+        auth_needed: false
+    }
+)
+
+// Store the access token in LocalStorage
+export const loggedIn = (json) => {
+    return (dispatch) => {
+        localStorage.setItem('access_token', json.access_token)
+        // TODO: Redirect users to home page
     }
 }
 
