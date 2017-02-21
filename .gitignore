@@ -4,3 +4,4 @@ backend/.idea
 backend/.env
 frontend/node_modules
 frontend/npm-debug.log
+frontend/public/bundle.js
