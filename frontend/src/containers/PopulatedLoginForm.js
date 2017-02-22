@@ -4,12 +4,12 @@ import LoginForm from '../components/LoginForm'
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleSubmit: (credentials) => {
-            dispatch(login(credientials))
+        onSubmit: (credentials) => {
+            dispatch(login(credentials))
         }
     }
 }
 
-const PopulatedLoginForm = connect(mapDispatchToProps)(LoginForm)
+const PopulatedLoginForm = connect(null, mapDispatchToProps)(LoginForm)
 
 export default PopulatedLoginForm

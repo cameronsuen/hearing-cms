@@ -18,7 +18,7 @@ const LoginFormComponent = ({ handleSubmit }) => (
                 <h3 className="panel-title">Login</h3>
             </div>
             <div className="panel-body">
-                <form onSubmit={handleSubmit} className="form-horizontal">
+                <form onSubmit={ handleSubmit } className="form-horizontal">
                     <div className="form-group">  
                         <label htmlFor="username" className="col-md-2">Username</label>
                         <div className="col-md-10">

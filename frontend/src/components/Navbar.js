@@ -2,8 +2,6 @@ import React from 'react'
 
 const Navbar = (state) => {
 
-    console.log(state)
-     
     // Make the list of menu items, mark the current route as active
     const items = state.routes.map(route => { 
         if (route.name === state.activeRoute) { 

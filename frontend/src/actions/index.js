@@ -22,26 +22,119 @@ export const completeValidation = (id, json) => {
     }
 }
 
-// Login with the credentials given
-/*export const login = (credentials) => {
-    return (dispatch) => {    
-        
-        // Do a POST request to login 
-        return fetch('http://localhost/authenticate', {method: 'POST', mode: 'cors'})
-            .then(response => response.json())
-            .then(json => dispatch(loggedIn(json)))
+export const login = credentials => {
+    return (dispatch) => {
+        dispatch({
+            [CALL_API]: {
+                /*types: [ 'REDIRECT_TO_HOME', 'REDIRECT_TO_LOGIN' ],*/
+                endpoint: '/authenticate',
+                method: 'POST',
+                body: credentials,
+                auth_needed: false
+            }
+        }).then(response => {
+            dispatch({
+                type: 'REDIRECT_TO_HOME',
+                response: response
+            })
+        })
     }
-}*/
+}
 
-export const login = credentials => (
-    [CALL_API]: {
-        types: [ 'REDIRECT_TO_HOME', 'REDIRECT_TO_LOGIN' ],
-        endpoint: '/authenticate',
-        method: 'POST',
-        body: credentials,
-        auth_needed: false
+export const fetchSampleContent = () => {
+    
+    
+    return (dispatch, getState) => {
+
+        dispatch({
+            type: 'FETCHING',
+            isFetching: true
+        })
+        
+        const { validationReducer } = getState();
+
+        dispatch({
+            [CALL_API]: {
+                endpoint: '/storage/img/' + validationReducer.samples[validationReducer.active].img,
+                method: 'GET',
+                auth_needed: true
+            }
+        }).then(response =>
+            dispatch({
+                type: 'RECEIVE_SAMPLE_IMG',
+                response: response,
+            })
+        ).then(action =>
+            dispatch({
+                [CALL_API]: {
+                    endpoint: '/storage/samples/' + validationReducer.samples[validationReducer.active].sample,
+                    method: 'GET',
+                    auth_needed: true
+                }
+            })
+        ).then(response =>
+            dispatch({
+                type: 'RECEIVE_SAMPLE_AUDIO',
+                response: response
+            })
+        ).then(action => 
+            dispatch({
+                type: 'FETCHING',
+                isFetching: false
+            })
+        )
+
     }
-)
+}
+
+export const fetchSamples = () => {
+    let samples = []
+    return (dispatch) => {
+        dispatch({
+            [CALL_API]: {
+                /*types: [ 'RECEIVE_SAMPLES', 'DUMMY_FAILURE' ],*/
+                endpoint: '/samples',
+                method: 'GET',
+                auth_needed: true
+            }
+        }).then(response => {
+            samples = response
+            return dispatch({
+                type: 'RECEIVE_SAMPLES',
+                response: response
+            })
+        }).then(action => dispatch(fetchSampleContent()))
+        
+        /*.then(action => {
+            return dispatch({
+                [CALL_API]: {
+                    endpoint: '/storage/img/' + samples[0].img,
+                    method: 'GET',
+                    auth_needed: true
+                }
+            })
+        }
+        ).then(response =>
+            dispatch({
+                type: 'RECEIVE_SAMPLE_IMG',
+                response: response,
+            })
+        ).then(action =>
+            dispatch({
+                [CALL_API]: {
+                    endpoint: '/storage/samples/' + samples[0].sample,
+                    method: 'GET',
+                    auth_needed: true
+                }
+            })
+        ).then(response =>
+            dispatch({
+                type: 'RECEIVE_SAMPLE_AUDIO',
+                response: response
+            })
+        )*/
+    }
+}
 
 // Store the access token in LocalStorage
 export const loggedIn = (json) => {
@@ -53,61 +146,37 @@ export const loggedIn = (json) => {
 
 export const validateSample = (comment) => {
     return (dispatch, getState) => {
-        const { active, samples } = getState() 
-        const id = samples[active].id
-        const payload = {
+        const { validationReducer } = getState()
+        const id = validationReducer.samples[validationReducer.active].id
+        const body = {
             op: 'add',
             field: comment,
             value: 1
         }
-        const body = JSON.stringify(payload)
-        if (active >= 4) {
-            return dispatch(putValidation(id, body))
-                .then(() => {
-                    dispatch({
-                        type: 'VALIDATE_SAMPLE',
-                        comment: comment
-                    })
-                    dispatch(fetchSamples())
-                })
-        } else {
-            return dispatch(putValidation(id, body))
-                .then(() => {
-                    dispatch({
-                        type: 'VALIDATE_SAMPLE',
-                        comment: comment
-                    })
-                })
-            
-        }
+
+        return dispatch({
+            [CALL_API]: {
+                endpoint: '/samples/' + id,
+                method: 'PUT',
+                body: body,
+                auth_needed: true
+            }
+        }).then(response => {
+            if (validationReducer.active + 1 >= Object.keys(validationReducer.samples).length) {
+                return dispatch(fetchSamples())
+            } else {
+                return dispatch(fetchSampleContent())
+            }
+        })
     }
 }
 
-export const fetchSamples = () => {
-    return (dispatch) => {
-        dispatch(requestSamples())
-            
-        // Fetching the samples, transforming the response to json
-        // dispatching the RECEIVE_SAMPLES action
-        return fetch('http://localhost/samples', {method: 'GET', mode: 'cors'})
-            .then(response => response.json())
-            .then(json => dispatch(receiveSamples(json)))
+export const putValidation = (id, body) => ({
+    [CALL_API]: {
+        types: [ 'VALIDATE_SAMPLE', 'DUMMY_FAILURE' ],
+        endpoint: '/samples/' + id,
+        method: 'GET',
+        body: {},
+        auth_needed: true
     }
-}
-
-export const putValidation = (id, body) => {
-
-    // Set the Content-Type to be application/json
-    // Required for the backend to work
-    const headers = new Headers()
-    headers.append('Content-Type', 'application/json')
-    headers.append('Authorization', 'Bearer ');
-
-    return (dispatch) => {
-
-        // Send a PUT request to submit the validation done to the samples
-        return fetch('http://localhost/samples/'+id, {method: 'PUT', mode: 'cors', headers: headers, body: body})
-            .then(response => response.json())
-            .then(json => dispatch(completeValidation(id)))
-    }
-}
+})
