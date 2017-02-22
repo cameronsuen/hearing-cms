@@ -1,4 +1,5 @@
 // Middleware to redirect 
+// This middleware is called after authentication
 
 import { browserHistory } from 'react-router' 
 
@@ -6,20 +7,28 @@ export const CALL_API = 'Call Api'
 
 export default store => next => action => {
 
-    // Continue if the request is not about calling APIs
-    if (action['type'] !== 'REDIRECT_TO_HOME') {
-        return next(action)
-    } else {
-        // Put the acess token in localStorage
-        localStorage.setItem('access_token', action['response'].access_token)
-        console.log(action['response'].access_token)
-        console.log('setting localStorage')
-        console.log(localStorage.getItem('access_token'))
+    switch (action.type) {
+        // Continue if the request is not about calling APIs
+        case 'REDIRECT_TO_HOME':
+            // Put the acess token in localStorage
+            localStorage.setItem('access_token', action['response'].access_token)
+            localStorage.setItem('role', action['response'].role)
 
-        //TODO: Redirect
-        browserHistory.push('/validate')
+            // Redirect
+            browserHistory.push('/validate')
+            return next(action)
 
-        return next(action)
+        case 'LOGOUT':
+            // Remove the access token and role in localStorage
+            localStorage.removeItem('access_token')
+            localStorage.removeItem('role')
+
+            // Redirect to login page
+            browserHistory.push('/login')
+            return next(action)
+
+        default:
+            return next(action)
     }
 
 }

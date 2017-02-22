@@ -3,7 +3,7 @@ import { login } from '../actions'
 import CounterView from '../components/CounterView'
 
 const mapStateToProps = (state) => {
-    let counter = state.counter
+    let counter = state.validationReducer.counter
     return {
         counter
     }

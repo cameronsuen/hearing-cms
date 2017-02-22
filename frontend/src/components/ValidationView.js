@@ -87,8 +87,6 @@ class ValidationView extends React.Component {
         )
     }
 }
-/*const ValidationView = ({ sample, onValidate }) => (
-)*/
 
 ValidationView.propTypes = {
     sample: PropTypes.shape({

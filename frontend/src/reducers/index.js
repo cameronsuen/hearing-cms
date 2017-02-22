@@ -4,6 +4,7 @@ import samples from './samples'
 import imgUrl from './imgUrl'
 import audioUrl from './audioUrl'
 import fetching from './fetching'
+import role from './role'
 import { combineReducers } from 'redux'
 import { reducer as formReducers } from 'redux-form'
 
@@ -18,14 +19,37 @@ const initialState = {
     counter: 0,
     fetching: false,
     imgUrl: '',
-    audioUrl: ''
+    audioUrl: '',
+    role: parseInt(localStorage.getItem('role')) || 0
 }
 
 // the root reducer delegating actions to different reducers
 const validationReducer = (state=initialState, action) => {
+    console.log(state)
     switch (action.type) {
+        case 'REDIRECT_TO_HOME':
+            return {
+                role: role(state.role, action),
+                active: state.active,
+                samples: state.samples,
+                counter: state.counter,
+                imgUrl: state.imgUrl,
+                audioUrl: state.audioUrl,
+                fetching: state.fetching 
+            }
+        case 'LOGOUT':
+            return {
+                role: role(state.role, action),
+                active: state.active,
+                samples: state.samples,
+                counter: state.counter,
+                imgUrl: state.imgUrl,
+                audioUrl: state.audioUrl,
+                fetching: state.fetching
+            }
         case 'RECEIVE_SAMPLES':
             return {
+                role: state.role,
                 active: active(state.active, action, Object.keys(state.samples).length),
                 samples: samples(state.samples, action),
                 counter: state.counter,
@@ -35,6 +59,7 @@ const validationReducer = (state=initialState, action) => {
             }
         case 'FETCHING':
             return {
+                role: state.role,
                 active: active(state.active, action, Object.keys(state.samples).length),
                 samples: state.samples,
                 counter: state.counter,
@@ -44,6 +69,7 @@ const validationReducer = (state=initialState, action) => {
             }
         case 'VALIDATE_SAMPLE': 
             return {
+                role: state.role,
                 active: active(state.active, action, Object.keys(state.samples).length),
                 samples: state.samples,
                 counter: counter(state.counter, action),
@@ -53,6 +79,7 @@ const validationReducer = (state=initialState, action) => {
             }
         case 'RECEIVE_SAMPLE_IMG':
             return {
+                role: state.role,
                 active: state.active,
                 samples: state.samples,
                 counter: state.counter,
@@ -62,6 +89,7 @@ const validationReducer = (state=initialState, action) => {
             }
         case 'RECEIVE_SAMPLE_AUDIO':
             return {
+                role: state.role,
                 active: state.active,
                 samples: state.samples,
                 counter: state.counter,

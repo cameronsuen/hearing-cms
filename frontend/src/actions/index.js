@@ -105,45 +105,10 @@ export const fetchSamples = () => {
             })
         }).then(action => dispatch(fetchSampleContent()))
         
-        /*.then(action => {
-            return dispatch({
-                [CALL_API]: {
-                    endpoint: '/storage/img/' + samples[0].img,
-                    method: 'GET',
-                    auth_needed: true
-                }
-            })
-        }
-        ).then(response =>
-            dispatch({
-                type: 'RECEIVE_SAMPLE_IMG',
-                response: response,
-            })
-        ).then(action =>
-            dispatch({
-                [CALL_API]: {
-                    endpoint: '/storage/samples/' + samples[0].sample,
-                    method: 'GET',
-                    auth_needed: true
-                }
-            })
-        ).then(response =>
-            dispatch({
-                type: 'RECEIVE_SAMPLE_AUDIO',
-                response: response
-            })
-        )*/
     }
 }
 
-// Store the access token in LocalStorage
-export const loggedIn = (json) => {
-    return (dispatch) => {
-        localStorage.setItem('access_token', json.access_token)
-        // TODO: Redirect users to home page
-    }
-}
-
+// This action is dispatched when a sample gets validated
 export const validateSample = (comment) => {
     return (dispatch, getState) => {
         const { validationReducer } = getState()
@@ -162,21 +127,18 @@ export const validateSample = (comment) => {
                 auth_needed: true
             }
         }).then(response => {
+            // This action updates the counter
+            dispatch({
+                type: 'VALIDATE_SAMPLE'
+            })
+
+            // Fetch next sample list if current samples are all validated
             if (validationReducer.active + 1 >= Object.keys(validationReducer.samples).length) {
                 return dispatch(fetchSamples())
             } else {
+                // Simply fetch the next sample's content if the list is not exhausted
                 return dispatch(fetchSampleContent())
             }
         })
     }
 }
-
-export const putValidation = (id, body) => ({
-    [CALL_API]: {
-        types: [ 'VALIDATE_SAMPLE', 'DUMMY_FAILURE' ],
-        endpoint: '/samples/' + id,
-        method: 'GET',
-        body: {},
-        auth_needed: true
-    }
-})

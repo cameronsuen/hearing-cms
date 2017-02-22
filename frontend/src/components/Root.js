@@ -5,12 +5,28 @@ import App from './App'
 import PopulatedLoginForm from '../containers/PopulatedLoginForm'
 import ContentPane from './ContentPane'
 
+const isGuest = (nextState, replace, callback) => {
+    
+    if (localStorage.getItem('access_token')) {
+        replace('/validate')
+    } 
+    callback()
+}
+
+const isLoggedIn = (state, nextState, callback) => {
+
+    if (!localStorage.getItem('access_token')) {
+        replace('/login')
+    }
+    callback()
+}
+
 const Root = ({ store }) => (
     <Provider store={store}>
         <Router history={browserHistory}>
             <Route path="/" component={App}>
-                <Route path="login" component={PopulatedLoginForm} />
-                <Route path="validate" component={ContentPane} />
+                <Route path="login" component={PopulatedLoginForm} onEnter={isGuest} />
+                <Route path="validate" component={ContentPane} onEnter={isLoggedIn} />
             </Route>
         </Router>
     </Provider>

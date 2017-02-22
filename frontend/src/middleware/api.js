@@ -1,5 +1,7 @@
 // Adapted from the real-world example from reactjs/redux repo
 
+// This is the middleware that fetches content/ calls API and returns the response
+
 const API_ROOT = 'http://localhost:80'
 
 const callApi = (endpoint, method, body, auth_needed) => {
