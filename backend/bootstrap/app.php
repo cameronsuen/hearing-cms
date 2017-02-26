@@ -50,6 +50,14 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->singleton('zipper', function ($app) {
+    return $app->loadComponent(
+        'zipper',
+        Chumper\Zipper\ZipperServiceProvider::class,
+        'zipper'
+    );
+});
+
 
 /*
 |--------------------------------------------------------------------------

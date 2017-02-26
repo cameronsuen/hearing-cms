@@ -35,12 +35,12 @@ class AuthenticateController extends Controller
             $password = $request->input('password');
         
             // Authenticate the user
-            $result = DB::select("SELECT password FROM users WHERE username=:username", ['username'=>$username]);
+            $result = DB::select("SELECT password, role FROM users WHERE username=:username", ['username'=>$username]);
 
             if (Hash::check($password, $result[0]->password)) {
                 // Build and return the access token
                 $token = $this->buildToken();
-                return response()->json(['access_token' => (string)$token]);
+                return response()->json(['access_token' => (string)$token, 'role' => $result[0]->role]);
 
             } else {
                 throw new Exception('Invalid username or password');

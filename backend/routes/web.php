@@ -15,6 +15,8 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
+$app->get('/exportAll', 'ExportController@exportAll');
+
 $app->post('/authenticate', 'AuthenticateController@authenticate');
 
 $app->get('/samples', 'SampleController@get');
