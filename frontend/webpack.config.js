@@ -15,6 +15,7 @@ const config = {
     },
     devServer: {
         historyApiFallback: true,
+        publicPath: "/cms",
         contentBase: path.join(__dirname, 'public')
     },
     output: {
