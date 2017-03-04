@@ -8,7 +8,7 @@ import ContentPane from './ContentPane'
 const isGuest = (nextState, replace, callback) => {
     
     if (localStorage.getItem('access_token')) {
-        replace('/validate')
+        replace('/cms/validate')
     } 
     callback()
 }
@@ -16,7 +16,7 @@ const isGuest = (nextState, replace, callback) => {
 const isLoggedIn = (state, nextState, callback) => {
 
     if (!localStorage.getItem('access_token')) {
-        replace('/login')
+        replace('/cms/login')
     }
     callback()
 }
@@ -24,7 +24,7 @@ const isLoggedIn = (state, nextState, callback) => {
 const Root = ({ store }) => (
     <Provider store={store}>
         <Router history={browserHistory}>
-            <Route path="/" component={App}>
+            <Route path="/cms" component={App}>
                 <Route path="login" component={PopulatedLoginForm} onEnter={isGuest} />
                 <Route path="validate" component={ContentPane} onEnter={isLoggedIn} />
             </Route>

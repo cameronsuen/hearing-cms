@@ -15,7 +15,7 @@ export default store => next => action => {
             localStorage.setItem('role', action['response'].role)
 
             // Redirect
-            browserHistory.push('/validate')
+            browserHistory.push('/cms/validate')
             return next(action)
 
         case 'LOGOUT':
@@ -24,7 +24,7 @@ export default store => next => action => {
             localStorage.removeItem('role')
 
             // Redirect to login page
-            browserHistory.push('/login')
+            browserHistory.push('/cms/login')
             return next(action)
 
         default:
