@@ -1,0 +1,15 @@
+[submodule "python-mode"]
+	path = python-mode
+	url = https://github.com/klen/python-mode.git
+[submodule "vim-colors-solarized"]
+	path = vim-colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized.git
+[submodule "vim-javascript"]
+	path = vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
+[submodule "vim-jsx"]
+	path = vim-jsx
+	url = https://github.com/mxw/vim-jsx.git
+[submodule "YouCompleteMe"]
+	path = YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
