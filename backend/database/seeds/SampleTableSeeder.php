@@ -17,7 +17,7 @@ class SampleTableSeeder extends Seeder
 			$gender = array('M', 'F');
 			DB::table('sample')->insert([
 				'id' => $i,
-				'word_id' => $i + 1,
+				'word_id' => $i,
 				'background_id' => $i % 2 + 1,
 				'recorder' => 'test',
 				'stamp' => time(),
