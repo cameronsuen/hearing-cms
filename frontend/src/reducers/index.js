@@ -1,9 +1,10 @@
 import active from './active'
-import counter from './counter'
-import samples from './samples'
-import imgUrl from './imgUrl'
 import audioUrl from './audioUrl'
+import counter from './counter'
 import fetching from './fetching'
+import imgUrl from './imgUrl'
+import samples from './samples'
+import search from './search'
 import role from './role'
 import { combineReducers } from 'redux'
 import { reducer as formReducers } from 'redux-form'
@@ -35,7 +36,8 @@ const validationReducer = (state=initialState, action) => {
                 counter: state.counter,
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
-                fetching: state.fetching 
+                fetching: state.fetching,
+                search: state.search
             }
         case 'LOGOUT':
             return {
@@ -45,7 +47,8 @@ const validationReducer = (state=initialState, action) => {
                 counter: state.counter,
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
-                fetching: state.fetching
+                fetching: state.fetching,
+                search: state.search
             }
         case 'RECEIVE_SAMPLES':
             return {
@@ -55,7 +58,8 @@ const validationReducer = (state=initialState, action) => {
                 counter: state.counter,
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
-                fetching: state.fetching
+                fetching: state.fetching,
+                search: state.search
             }
         case 'FETCHING':
             return {
@@ -65,7 +69,8 @@ const validationReducer = (state=initialState, action) => {
                 counter: state.counter,
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
-                fetching: fetching(state.fetching, action)
+                fetching: fetching(state.fetching, action),
+                search: state.search
             }
         case 'VALIDATE_SAMPLE': 
             return {
@@ -75,7 +80,8 @@ const validationReducer = (state=initialState, action) => {
                 counter: counter(state.counter, action),
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
-                fetching: state.fetching
+                fetching: state.fetching,
+                search: state.search
             }
         case 'RECEIVE_SAMPLE_IMG':
             return {
@@ -85,7 +91,8 @@ const validationReducer = (state=initialState, action) => {
                 counter: state.counter,
                 imgUrl: imgUrl(state.imgUrl, action),
                 audioUrl: state.audioUrl,
-                fetching: state.fetching
+                fetching: state.fetching,
+                search: state.search
             }
         case 'RECEIVE_SAMPLE_AUDIO':
             return {
@@ -95,7 +102,19 @@ const validationReducer = (state=initialState, action) => {
                 counter: state.counter,
                 imgUrl: state.imgUrl,
                 audioUrl: audioUrl(state.audioUrl, action),
-                fetching: state.fetching
+                fetching: state.fetching,
+                search: state.search
+            }
+        case 'DISPLAY_RESULTS':
+            return {
+                role: state.role,
+                active: state.active,
+                samples: state.samples,
+                counter: state.counter,
+                imgUrl: state.imgUrl,
+                audioUrl: audioUrl(state.audioUrl, action),
+                fetching: state.fetching,
+                search: search(state.search, action)
             }
         default: return state
     }
