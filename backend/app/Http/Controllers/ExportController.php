@@ -18,7 +18,7 @@ class ExportController extends Controller
      */
 
 
-    public function exportAll(Zipper $zipper)
+    public function export(Zipper $zipper)
     {
 
 
@@ -55,7 +55,7 @@ class ExportController extends Controller
       	//fretch array into string
       //add ../storage/app/samples/
       //$file =(added result)
-      //loop $status = $zipper->make('../storage/app/exports/'.$filename)->add($files)->getStatus();
+      //loop $status = $zipper ->make('../storage/app/exports/'.$filename)->add($files)->getStatus();
 
         // Current directory is public folder
         // Get all the file paths from ../storage/app/samples
