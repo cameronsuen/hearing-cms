@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import { login } from '../actions'
+import { search } from '../actions'
 import SearchView from '../components/SearchView'
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSubmit: (credentials) => {
-            dispatch(login(credentials))
+        onSubmit: (parameters) => {
+            dispatch(search(parameters))
         }
     }
 }

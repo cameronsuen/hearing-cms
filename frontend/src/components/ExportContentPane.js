@@ -1,25 +1,24 @@
 import React from 'react'
-import ActiveValidationView from '../containers/ActiveValidationView'
+import PopulatedSearchResults from '../containers/PopulatedSearchResults'
 import SearchView from './SearchView'
-// import ManualView from './ManualView'
+import SearchResultsView from './SearchResultsView'
 
 const ExportContentPane = () => (
     <div className="container-fluid">
         <div className="row">
-            <div className="col-md-10 col-md-offset-1">
-                <div className="row">
-                    <div className="col-md-12">
-                        <SearchView />
-                    </div>
-                </div>
-             {
-                // <div className="row">
-                //     <div className="col-md-12">
-                //         <ManualView />
-                //     </div>
-                // </div>
-            }
-            
+            <div className="col-md-12">
+                <SearchView />
+            </div>
+        </div>
+             
+        <div className="row">
+            <div className="col-md-12">
+                <PopulatedSearchResults/>
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-md-12">
+                <button type="export" className="btn btn-primary">Export</button>
             </div>
         </div>
     </div>
