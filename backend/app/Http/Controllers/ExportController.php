@@ -16,18 +16,40 @@ class ExportController extends Controller
      * 
      * @return Array
      */
-    public function exportAll(Zipper $zipper)
+
+
+    public function export(Zipper $zipper)
     {
 
-        // Current directory is public folder
-        // Get all the file paths from ../storage/app/samples
-        $files = glob('../storage/app/samples/*');
 
-        // Build the filename by timestamp
-        $filename = time().'.zip';
 
-        // Zip the files and get Status
-        $status = $zipper->make('../storage/app/exports/'.$filename)->add($files)->getStatus();
+		$gender = $_GET["gender"];
+	    $username = $_GET["username"];
+	    $min_age = $_GET["min_age"];
+	    $max_age = $_GET["max_age"];
+	    $validPercent = $_GET["validation_percentage"];
+	    $min_correct = $_GET['min_correct'];
+
+
+	    $results = DB::select("SELECT sample FROM sample WHERE age >=:min_age and age <=:max_age and recorder =:username and correct/(correct + incorrect + unsure + noise ) >=:validPercent and correct>=:min_correct", 
+	    	['min_age' => $min_age, 'max_age'=>$max_age,'username'=>$username,'validPercent'=>$validPercent,'min_correct'=>$min_correct ]);
+
+
+
+ 		// Build the filename by timestamp
+    	$filename = time().'.zip';
+
+      	//echo sizeof($results);
+      	for ($i=0;$i<sizeof($results);$i++){
+   
+	      	$data[$i] = $results[$i]->sample;
+
+	      	$files = '../storage/app/samples/'.$data[$i];
+
+	      	// Zip the files and get Status
+	      	$status = $zipper->make('../storage/app/exports/'.$filename)->add($files)->getStatus();
+      	}
+        
 
         // Close the zipper and write file to disk
         $zipper->close();
