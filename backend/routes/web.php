@@ -26,3 +26,5 @@ $app->put('/samples/{sampleId}', 'SampleController@put');
 $app->get('/storage/samples/{sampleName}', 'StaticServeController@getSample');
 
 $app->get('/storage/img/{imgName}', 'StaticServeController@getImg');
+
+$app->get('/getsample', 'GetSampletable@showtable');
