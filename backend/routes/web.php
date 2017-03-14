@@ -15,7 +15,7 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
-$app->get('/exportAll', 'ExportController@exportAll');
+$app->get('/export', 'ExportController@export');
 
 $app->post('/authenticate', 'AuthenticateController@authenticate');
 
@@ -26,3 +26,5 @@ $app->put('/samples/{sampleId}', 'SampleController@put');
 $app->get('/storage/samples/{sampleName}', 'StaticServeController@getSample');
 
 $app->get('/storage/img/{imgName}', 'StaticServeController@getImg');
+
+$app->get('/getsample', 'GetSampletable@showtable');
