@@ -12,8 +12,26 @@ class IPATableSeeder extends Seeder
      */
     public function run()
     {
+        $files = glob('storage/app/json/*.json');
+
+        foreach($files as $file) {
+            $content = file_get_contents($file);
+            $json = json_decode($content, true);
+            $samples = $json['words'];
+
+            foreach($samples as $sample) {
+                DB::table('ipa')->insert([
+                    'set_id' => filter_var($file, FILTER_SANITIZE_NUMBER_INT),
+                    'vowel' => isset($sample['vowel'])? $sample['vowel']: '',
+                    'consonant' => substr($sample['consonant'], 0, -1),
+                    'word' => $sample['char'],
+                    'tone' => substr($sample['consonant'], -1),
+                    'img' => isset($sample['vowel'])? $sample['vowel'].'_'.$sample['consonant'].'.png': $sample['consonant'].'.png'
+                ]);
+            }
+        }
         //
-		DB::table('ipa')->insert([
+		/*DB::table('ipa')->insert([
 			'set_id' => 1,
 			'vowel' => 'g',
 			'consonant' => 'au',
@@ -101,7 +119,7 @@ class IPATableSeeder extends Seeder
 			'tone' => 1,
 			'word' => '嘔',
 			'img' => 'au1.png'
-		]);
+        ]);*/
 		
 		
 	}

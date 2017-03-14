@@ -12,16 +12,10 @@ class SetTableSeeder extends Seeder
      */
     public function run()
     {
-    	DB::table('set')->insert([
-			'd_count' => 0
-		]);
-		DB::table('set')->insert([
-			'd_count' => 0
-		]);
-		DB::table('set')->insert([
-			'd_count' => 0
-		]);
-
-
+        for ($i = 0; $i < 28; ++$i) {
+            DB::table('set')->insert([
+                'd_count' => 0
+            ]);
+        }
     }
 }
