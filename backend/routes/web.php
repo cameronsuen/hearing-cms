@@ -17,6 +17,12 @@ $app->get('/', function () use ($app) {
 
 $app->get('/export', 'ExportController@export');
 
+$app->get('/search', 'ExportController@search');
+
+$app->get('/getVowel', 'IPAController@getVowel');
+
+$app->get('/getConsonant', 'IPAController@getConsonant');
+
 $app->post('/authenticate', 'AuthenticateController@authenticate');
 
 $app->get('/samples', 'SampleController@get');
@@ -26,5 +32,7 @@ $app->put('/samples/{sampleId}', 'SampleController@put');
 $app->get('/storage/samples/{sampleName}', 'StaticServeController@getSample');
 
 $app->get('/storage/img/{imgName}', 'StaticServeController@getImg');
+
+$app->get('/storage/exports/{filename}', 'StaticServeController@getExport');
 
 $app->get('/getsample', 'GetSampletable@showtable');

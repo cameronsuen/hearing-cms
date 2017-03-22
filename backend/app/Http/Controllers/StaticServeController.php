@@ -13,6 +13,10 @@ class StaticServeController extends Controller {
     public function getImg($imgName) {
         return Storage::get('img/'.$imgName);
     }
+
+    public function getExport($filename) {
+        return Storage::get('exports/'.$filename);
+    }
 }
 
 ?>

@@ -12,63 +12,142 @@ class ExportController extends Controller
 {
 
     /**
-     * Export all files as a zip file
+     * search the samples
      * 
      * @return Array
      */
 
-
-    public function export(Zipper $zipper)
+    public function search(Request $request)
     {
 
+        $gender = $request->get('gender');
+        $username = $request->get('username');
+        $min_age = $request->get('minAge');
+        $max_age = $request->get('maxAge');
+        $validPercent = $request->get('validationPercentage');
+        $min_correct = $request->get('minCorrect');
+        $vowel = $request->get('vowel');
+        $consonant = $request->get('consonant');
+        
+        $query = "SELECT s.*, i.* FROM sample s LEFT JOIN ipa i ON i.id = s.id WHERE 1=1";
+        
+        $params = array();
 
+        if (isset($gender)) {
+            $query .= " AND gender=:gender";
+            $params['gender'] = $gender;
+        }
 
-		$gender = $_GET["gender"];
-	    $username = $_GET["username"];
-	    $min_age = $_GET["minAge"];
-	    $max_age = $_GET["maxAge"];
-	    $validPercent = $_GET["validationPercentage"];
-	    $min_correct = $_GET['minCorrect'];
-	    $vowel = $_GET['vowel'];
-	    $consonant = $_GET['consonant'];
+        if (isset($username)) {
+            $query .= " AND username=:username";
+            $params['username'] = $username;
+        }
 
+        if (isset($min_age)) {
+            $query .= " AND age >=:min_age";
+            $params['min_age'] = $min_age;
+        }
 
-		$word_id_result = DB::select("SELECT id FROM ipa WHERE vowel=:vowel and consonant=:consonant", 
-	    	['vowel'=>$vowel,'consonant'=>$consonant]);
+        if (isset($max_age)) {
+            $query .= " AND age <=:max_age";
+            $params['max_age'] = $max_age;
+        }
 
-	    $word_id = $word_id_result[0]->id;	
-	  	
+        if (isset($validPercent)) {
+            $query .= " AND correct/(correct + incorrect + unsure + noise) >=:validPercent"; 
+            $params['validPercent'] = $validPercent;
+        }
 
-	    $results = DB::select("SELECT sample FROM sample WHERE age >=:min_age and age <=:max_age and recorder =:username and correct/(correct + incorrect + unsure + noise ) >=:validPercent and correct>=:min_correct and word_id=:word_id", 
-	    	['min_age' => $min_age, 'max_age'=>$max_age,'username'=>$username,'validPercent'=>$validPercent,'min_correct'=>$min_correct,'word_id'=>$word_id]);
+        if (isset($vowel)) {
+            $query .= " AND vowel=:vowel";
+            $params['vowel'] = $vowel;
+        }
 
+        if (isset($consoant)) {
+            $query .= " AND consonant=:consonant";
+            $params['consonant'] = $consonant;
+        }
 
+        $results = DB::select($query, $params);
+
+        return $results;
+    }
+    
+    /**
+     * export the samples
+     * 
+     * @return Array
+     */
+    public function export(Request $request, Zipper $zipper)
+    {
+        $gender = $request->get('gender');
+        $username = $request->get('username');
+        $min_age = $request->get('minAge');
+        $max_age = $request->get('maxAge');
+        $validPercent = $request->get('validationPercentage');
+        $min_correct = $request->get('minCorrect');
+        $vowel = $request->get('vowel');
+        $consonant = $request->get('consonant');
+        
+        $query = "SELECT s.sample FROM sample s LEFT JOIN ipa i ON i.id = s.id WHERE 1=1";
+        
+        $params = array();
+
+        if (isset($gender)) {
+            $query .= " AND gender=:gender";
+            $params['gender'] = $gender;
+        }
+
+        if (isset($username)) {
+            $query .= " AND username=:username";
+            $params['username'] = $username;
+        }
+
+        if (isset($min_age)) {
+            $query .= " AND age >=:min_age";
+            $params['min_age'] = $min_age;
+        }
+
+        if (isset($max_age)) {
+            $query .= " AND age <=:max_age";
+            $params['max_age'] = $max_age;
+        }
+
+        if (isset($validPercent)) {
+            $query .= " AND correct/(correct + incorrect + unsure + noise) >=:validPercent"; 
+            $params['validPercent'] = $validPercent;
+        }
+
+        if (isset($vowel)) {
+            $query .= " AND vowel=:vowel";
+            $params['vowel'] = $vowel;
+        }
+
+        if (isset($consoant)) {
+            $query .= " AND consonant=:consonant";
+            $params['consonant'] = $consonant;
+        }
+
+        $results = DB::select($query, $params);
 
  		// Build the filename by timestamp
-    	  $filename = time().'.zip';
-
-    	  $status='';
-
-
-
-    	  if (sizeof($results)==0){
-    	  	$status = 'empty result retruned! (line 55)';
+        $filename = time().'.zip';
+        
+    	$status='';
+    	if (sizeof($results)==0){
+    	    $status = 'empty result retruned! (line 55)';
     	  	return response()->json(['error' => $status], 400);
-    	  }
+    	}
 
-      	//echo sizeof($results);
       	for ($i=0;$i<sizeof($results);$i++){
    
 	      	$data[$i] = $results[$i]->sample;
-
 	      	$files = '../storage/app/samples/'.$data[$i];
-	      	
 
 	      	// Zip the files and get Status
 	      	$status = $zipper->make('../storage/app/exports/'.$filename)->add($files)->getStatus();
       	}
         
-
         // Close the zipper and write file to disk
         $zipper->close();
 
@@ -79,5 +158,4 @@ class ExportController extends Controller
             return response()->json(['error' => $status], 400);
         }
     }
-
 }
