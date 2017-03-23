@@ -37,13 +37,23 @@ const renderGender = () => (
 )
 
 
-const SearchViewComponent = ({ handleSubmit }) => (
+//const SearchViewComponent = ({ handleSubmit, handleClick, onSubmit }) => {
+class SearchViewComponent extends React.Component {
+
+    constructor(props) { super(props) }
+
+    componentWillMount() {
+        //this.props.dispatch(fetchConsonantAndVowel) 
+    }
+
+    render() {
+    return (
     <div className="panel panel-primary">
         <div className="panel-heading">
             <h3 className="panel-title">Enter the criteria to search for the records to export</h3>
         </div>
         <div className="panel panel-body">
-            <form onSubmit={ handleSubmit } className="form-horizontal">
+            <form onSubmit={ this.props.handleSubmit(values => this.props.onSubmit({values})) } className="form-horizontal">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-2">
@@ -87,15 +97,27 @@ const SearchViewComponent = ({ handleSubmit }) => (
                             Valid Percentage(%):
                             <Field name="vaildPercent" component="input" className="form-control" placeholder="Percentage" type="text" />
                         </div>
-                        <div className="col-md-1" style={topPadding15}>
-                            <button type="submit" className="btn btn-primary">Search</button>
+                        <div className="col-md-1">
+                            <div class="row">
+                                <div className="col-md-12" style={topPadding15}>
+                                    <button type="submit" className="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div className="col-md-12" style={topPadding15}>
+                                    <button className="btn btn-primary" onClick={this.props.handleSubmit(values => this.props.onExport({values}))}>Export</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-)
+    )
+    }
+}
 const SearchView = reduxForm({
     form: 'search'
 })(SearchViewComponent)

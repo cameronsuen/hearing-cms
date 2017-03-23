@@ -23,7 +23,7 @@ const initialState = {
     imgUrl: '',
     audioUrl: '',
     role: parseInt(localStorage.getItem('role')) || 0,
-    search: {}
+    search: {},
 }
 
 // the root reducer delegating actions to different reducers
@@ -39,7 +39,8 @@ const validationReducer = (state=initialState, action) => {
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
                 fetching: state.fetching,
-                search: state.search
+                search: state.search,
+                //searchParams: state.searchParams
             }
         case 'LOGOUT':
             return {
@@ -50,7 +51,8 @@ const validationReducer = (state=initialState, action) => {
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
                 fetching: state.fetching,
-                search: state.search
+                search: state.search,
+                //searchParams: state.searchParams
             }
         case 'RECEIVE_SAMPLES':
             return {
@@ -61,7 +63,8 @@ const validationReducer = (state=initialState, action) => {
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
                 fetching: state.fetching,
-                search: state.search
+                search: state.search,
+                //searchParams: state.searchParams
             }
         case 'FETCHING':
             return {
@@ -72,7 +75,8 @@ const validationReducer = (state=initialState, action) => {
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
                 fetching: fetching(state.fetching, action),
-                search: state.search
+                search: state.search,
+                //searchParams: state.searchParams
             }
         case 'VALIDATE_SAMPLE': 
             return {
@@ -83,7 +87,8 @@ const validationReducer = (state=initialState, action) => {
                 imgUrl: state.imgUrl,
                 audioUrl: state.audioUrl,
                 fetching: state.fetching,
-                search: state.search
+                search: state.search,
+                //searchParams: state.searchParams
             }
         case 'RECEIVE_SAMPLE_IMG':
             return {
@@ -94,7 +99,8 @@ const validationReducer = (state=initialState, action) => {
                 imgUrl: imgUrl(state.imgUrl, action),
                 audioUrl: state.audioUrl,
                 fetching: state.fetching,
-                search: state.search
+                search: state.search,
+                //searchParams: state.searchParams
             }
         case 'RECEIVE_SAMPLE_AUDIO':
             return {
@@ -105,7 +111,8 @@ const validationReducer = (state=initialState, action) => {
                 imgUrl: state.imgUrl,
                 audioUrl: audioUrl(state.audioUrl, action),
                 fetching: state.fetching,
-                search: state.search
+                search: state.search,
+                //searchParams: state.searchParams
             }
         case 'DISPLAY_RESULTS':
             return {
@@ -116,7 +123,8 @@ const validationReducer = (state=initialState, action) => {
                 imgUrl: state.imgUrl,
                 audioUrl: audioUrl(state.audioUrl, action),
                 fetching: state.fetching,
-                search: search(state.search, action)
+                search: search(state.search, action),
+                //searchParams: storeSearchParams(state.searchParams)
             }
         default: return state
     }

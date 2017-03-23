@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import download from 'downloadjs'
 import { CALL_API } from '../middleware/api'
 
 export const requestSamples = () => {
@@ -43,6 +44,7 @@ export const login = credentials => {
 
 export const search = parameters => {
     return (dispatch) => {
+
         dispatch({
             [CALL_API]: {
                 endpoint: '/search',
@@ -53,7 +55,32 @@ export const search = parameters => {
         }).then(response => {
             dispatch({
                 type: 'DISPLAY_RESULTS',
-                response: response
+                response: response,
+            })
+        })
+    }
+}
+
+export const exportSamples = parameters => {
+    return (dispatch) => {
+        dispatch({
+            [CALL_API]: {
+                endpoint: '/export',
+                method: 'GET',
+                body: parameters,
+                auth_needed: true
+            }
+        }).then(response => {
+            dispatch({
+                [CALL_API]: {
+                    endpoint: '/storage/exports/' + response.filename,
+                    method: 'GET',
+                    auth_needed: true
+                }
+            }).then(response => {
+                dispatch(
+                    download(response, 'export.zip', 'application/zip') 
+                )
             })
         })
     }

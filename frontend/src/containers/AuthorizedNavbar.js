@@ -8,31 +8,31 @@ const mapStateToProps = (state) => {
     switch(state.validationReducer.role) {
         case 400:
             return { routes: [
-                { href:'/', name:'Home' },
-                { href:'/validate', name:'Validate' },
-                { href:'/import', name:'Import' },
-                { href:'/export', name:'Export' },
-                { href:'/statistics', name:'Statistics' },
-                { href:'/admin', name:'Admin' }
+                { href:'/cms', name:'Home' },
+                { href:'/cms/validate', name:'Validate' },
+                { href:'/cms/import', name:'Import' },
+                { href:'/cms/export', name:'Export' },
+                { href:'/cms/statistics', name:'Statistics' },
+                { href:'/cms/admin', name:'Admin' }
             ], activeRoute: 'Validate', isLoggedIn: true }
         case 300:
             return { routes: [
-                { href:'/', name:'Home' },
-                { href:'/validate', name:'Validate' },
-                { href:'/import', name:'Import' },
-                { href:'/export', name:'Export' },
-                { href:'/statistics', name:'Statistics' },
+                { href:'/cms', name:'Home' },
+                { href:'/cms/validate', name:'Validate' },
+                { href:'/cms/import', name:'Import' },
+                { href:'/cms/export', name:'Export' },
+                { href:'/cms/statistics', name:'Statistics' },
             ], activeRoute: 'Validate', isLoggedIn: true }
         case 200:
             return { routes: [
                 { href:'/', name:'Home' },
-                { href:'/validate', name:'Validate' },
-                { href:'/import', name:'Import' },
+                { href:'/cms/validate', name:'Validate' },
+                { href:'/cms/import', name:'Import' },
             ], activeRoute: 'Validate', isLoggedIn: true }
         case 100:
             return { routes: [
                 { href:'/', name:'Home' },
-                { href:'/validate', name:'Validate' },
+                { href:'/cms/validate', name:'Validate' },
             ], activeRoute: 'Validate', isLoggedIn: true }
         default:
             return { routes: [
