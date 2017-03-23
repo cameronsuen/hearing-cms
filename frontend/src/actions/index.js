@@ -41,6 +41,42 @@ export const login = credentials => {
     }
 }
 
+export const search = parameters => {
+    return (dispatch) => {
+        dispatch({
+            [CALL_API]: {
+                endpoint: '/search',
+                method: 'GET',
+                body: parameters,
+                auth_needed: true
+            }
+        }).then(response => {
+            dispatch({
+                type: 'DISPLAY_RESULTS',
+                response: response
+            })
+        })
+    }
+}
+
+// export const export = parameters => {
+//     return (dispatch) => {
+//         dispatch({
+//             [CALL_API]: {
+//                 endpoint: '/export',
+//                 method: 'GET',
+//                 body: parameters,
+//                 auth_needed: true
+//             }
+//         }).then(response => {
+//             dispatch({
+//                 type: 'DISPLAY_RESULTS',
+//                 response: response
+//             })
+//         })
+//     }
+// }
+
 export const fetchSampleContent = () => {
     
     
