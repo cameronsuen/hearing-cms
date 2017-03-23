@@ -29,7 +29,7 @@ class ExportController extends Controller
         $vowel = $request->get('vowel');
         $consonant = $request->get('consonant');
         
-        $query = "SELECT s.recorder, s.stamp, s.gender, s.age, s.hearing_prob, s.phone, s.sample, ";
+        $query = "SELECT s.recorder, s.stamp, s.gender, s.age, s.hearing_prob, s.phone, s.sample, s.correct, ";
         $query .= "CASE WHEN (s.correct + s.incorrect + s.unsure + s.noise)=0 THEN -1 ";
         $query .= "ELSE s.correct / (s.correct + s.incorrect + s.unsure + s.noise) * 100 END AS validPercent, ";
         $query .= "i.vowel, i.consonant FROM sample s INNER JOIN ipa i ON i.id = s.id WHERE 1=1";
