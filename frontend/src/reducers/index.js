@@ -9,6 +9,7 @@ import role from './role'
 import { combineReducers } from 'redux'
 import { reducer as formReducers } from 'redux-form'
 
+// Please set the initial state here
 const initialState = {
     samples: [{
         id: 1,
@@ -21,7 +22,8 @@ const initialState = {
     fetching: false,
     imgUrl: '',
     audioUrl: '',
-    role: parseInt(localStorage.getItem('role')) || 0
+    role: parseInt(localStorage.getItem('role')) || 0,
+    search: {}
 }
 
 // the root reducer delegating actions to different reducers

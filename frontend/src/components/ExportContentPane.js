@@ -1,6 +1,6 @@
 import React from 'react'
 import PopulatedSearchResults from '../containers/PopulatedSearchResults'
-import SearchView from './SearchView'
+import PopulatedSearch from '../containers/PopulatedSearch'
 
 const rightAlign = {
 
@@ -10,7 +10,7 @@ const ExportContentPane = () => (
     <div className="container-fluid">
         <div className="row">
             <div className="col-md-12">
-                <SearchView />
+                <PopulatedSearch />
             </div>
         </div>
              

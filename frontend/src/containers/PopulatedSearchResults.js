@@ -2,15 +2,11 @@ import { connect } from 'react-redux'
 import SearchResultsView from '../components/SearchResultsView'
 
 const mapStateToProps = (state) => {
+    // Convert objects to array
+    let records = Object.values(state.validationReducer.search)
     return {
-     // state.search
-        records:[
-            {
-                vowel: 'P',
-                consonant: 'a'
-            }
-
-        ]}
+        records
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {

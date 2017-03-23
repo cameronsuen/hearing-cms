@@ -4,7 +4,7 @@
 
 
 // You can change the API route to localhost if you want to use your local repo
-// const API_ROOT = 'http://localhost:80'
+//const API_ROOT = 'http://localhost:80'
 const API_ROOT = 'http://cep.ust.hk'
 
 const callApi = (endpoint, method, body, auth_needed) => {
