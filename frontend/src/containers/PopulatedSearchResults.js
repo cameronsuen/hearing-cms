@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
-// import { getAuthorizedRoutes } from '../actions'
 import SearchResultsView from '../components/SearchResultsView'
 
 const mapStateToProps = (state) => {
     return {
+     // state.search
         records:[
             {
                 vowel: 'P',

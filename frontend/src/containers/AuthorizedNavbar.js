@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { getAuthorizedRoutes } from '../actions'
+// import { getAuthorizedRoutes } from '../actions'
 import Navbar from '../components/Navbar'
 
 const mapStateToProps = (state) => {

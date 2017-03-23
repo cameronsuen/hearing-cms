@@ -1,11 +1,15 @@
 const _initialSamples = [
 	{
-    userName:'Pete',
-    gender:'M',
-    age:'10',
-    vaildSampleNum:'',
-    fileUrl:'/123.wav'
-
+    vowel:'',
+    consonant:'',
+    recorder:'',
+    gender:'',
+    age:'',
+    NH:'',
+    timestamp:'',
+    minCorrect:'',
+    validPercent:'',
+    Url:''
 	}
 ]
 

@@ -1,7 +1,10 @@
 import React from 'react'
 import PopulatedSearchResults from '../containers/PopulatedSearchResults'
 import SearchView from './SearchView'
-import SearchResultsView from './SearchResultsView'
+
+const rightAlign = {
+
+}
 
 const ExportContentPane = () => (
     <div className="container-fluid">
