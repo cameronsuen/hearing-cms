@@ -23,7 +23,7 @@ const initialState = {
     imgUrl: '',
     audioUrl: '',
     role: parseInt(localStorage.getItem('role')) || 0,
-    search: {},
+    search: {}
 }
 
 // the root reducer delegating actions to different reducers

@@ -5,6 +5,7 @@ import App from './App'
 import PopulatedLoginForm from '../containers/PopulatedLoginForm'
 import ContentPane from './ContentPane'
 import ExportContentPane from './ExportContentPane'
+import ImportContentPane from './ImportContentPane'
 
 const isGuest = (nextState, replace, callback) => {
     
@@ -29,6 +30,7 @@ const Root = ({ store }) => (
                 <Route path="login" component={PopulatedLoginForm} onEnter={isGuest} />
                 <Route path="validate" component={ContentPane} onEnter={isLoggedIn} />
                 <Route path="export" component={ExportContentPane} onEnter={isLoggedIn} />
+                <Route path="import" component={ImportContentPane} onEnter={isLoggedIn} />
             </Route>
         </Router>
     </Provider>

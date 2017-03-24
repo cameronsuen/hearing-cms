@@ -36,6 +36,9 @@ const renderGender = () => (
     </select>
 )
 
+const textRight = {
+    textAlign: 'right'
+}
 
 //const SearchViewComponent = ({ handleSubmit, handleClick, onSubmit }) => {
 class SearchViewComponent extends React.Component {
@@ -48,74 +51,74 @@ class SearchViewComponent extends React.Component {
 
     render() {
     return (
-    <div className="panel panel-primary">
-        <div className="panel-heading">
-            <h3 className="panel-title">Enter the criteria to search for the records to export</h3>
-        </div>
-        <div className="panel panel-body">
-            <form onSubmit={ this.props.handleSubmit(values => this.props.onSubmit({values})) } className="form-horizontal">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-2">
-                            Syllable:
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <Field name="vowel" component={renderVowel} className="form-control" />
-                                </div>
-                                <div className="col-md-6">
-                                    <Field name="consonant" component={renderConsonant} className="form-control" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            Recorder:
-                            <Field name="username" component="input" className="form-control" placeholder="Name" type="text" />
-                        </div>
-                        <div className="col-md-1">
-                            Gender:
-                            <Field name="gender" component={renderGender} className="form-control" />
-                        </div>
-                        <div className="col-md-2">
-                            Age:
-                            <div className="row">
-                                <div className="col-md-5" style={rightPadding5}>
-                                    <Field name="minAge" component="input" className="form-control" placeholder="From" type="text" />
-                                </div>
-                                <div className="col-md-1" style={noPadding}>
-                                    <h5>－</h5>
-                                </div>
-                                <div className="col-md-5">
-                                    <Field name="maxAge" component="input" className="form-control" placeholder="To" type="text" />
+        <div className="panel panel-primary">
+            <div className="panel-heading">
+                <h3 className="panel-title">Enter the criteria to search for the records to export</h3>
+            </div>
+            <div className="panel panel-body">
+                <form onSubmit={ this.props.handleSubmit(values => this.props.onSubmit({values})) } className="form-horizontal">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-2">
+                                Syllable:
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <Field name="vowel" component={renderVowel} className="form-control" />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <Field name="consonant" component={renderConsonant} className="form-control" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-md-2">
-                            Min. Validation Number:
-                            <Field name="minCorrect" component="input" className="form-control" placeholder="Number" type="text" />
-                        </div>
-                        <div className="col-md-2">
-                            Valid Percentage(%):
-                            <Field name="vaildPercent" component="input" className="form-control" placeholder="Percentage" type="text" />
-                        </div>
-                        <div className="col-md-1">
-                            <div class="row">
-                                <div className="col-md-12" style={topPadding15}>
-                                    <button type="submit" className="btn btn-primary">Search</button>
+                            <div className="col-md-2">
+                                Recorder:
+                                <Field name="username" component="input" className="form-control" placeholder="Name" type="text" />
+                            </div>
+                            <div className="col-md-1">
+                                Gender:
+                                <Field name="gender" component={renderGender} className="form-control" />
+                            </div>
+                            <div className="col-md-2">
+                                Age:
+                                <div className="row">
+                                    <div className="col-md-5" style={rightPadding5}>
+                                        <Field name="minAge" component="input" className="form-control" placeholder="From" type="text" />
+                                    </div>
+                                    <div className="col-md-1" style={noPadding}>
+                                        <h5>－</h5>
+                                    </div>
+                                    <div className="col-md-5">
+                                        <Field name="maxAge" component="input" className="form-control" placeholder="To" type="text" />
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="row">
-                                <div className="col-md-12" style={topPadding15}>
-                                    <button className="btn btn-primary" onClick={this.props.handleSubmit(values => this.props.onExport({values}))}>Export</button>
+                            <div className="col-md-2">
+                                Min. Validation Number:
+                                <Field name="minCorrect" component="input" className="form-control" placeholder="Number" type="text" />
+                            </div>
+                            <div className="col-md-2">
+                                Min. Valid Percentage(%):
+                                <Field name="vaildPercent" component="input" className="form-control" placeholder="Percentage" type="text" />
+                            </div>
+                            <div className="col-md-1" style={textRight}>
+                                <div className="row">
+                                    <div className="col-md-12" style={topPadding15}>
+                                        <button type="submit" className="btn btn-primary">Search</button>
+                                    </div>
+                                </div>
+                                
+                                <div className="row">
+                                    <div className="col-md-12" style={topPadding15}>
+                                        <button className="btn btn-primary" onClick={this.props.handleSubmit(values => this.props.onExport({values}))}>Export</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
-    )
+        )
     }
 }
 const SearchView = reduxForm({
