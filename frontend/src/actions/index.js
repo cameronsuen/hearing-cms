@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import download from 'downloadjs'
+// import download from 'download.js'
 import { CALL_API } from '../middleware/api'
 
 export const requestSamples = () => {
@@ -32,6 +32,25 @@ export const login = credentials => {
                 method: 'POST',
                 body: credentials,
                 auth_needed: false
+            }
+        }).then(response => {
+            dispatch({
+                type: 'REDIRECT_TO_HOME',
+                response: response
+            })
+        })
+    }
+}
+
+export const importFunc = files => {
+    return (dispatch) => {
+        dispatch({
+            [CALL_API]: {
+                /*types: [ 'REDIRECT_TO_HOME', 'REDIRECT_TO_LOGIN' ],*/
+                endpoint: '/import',
+                method: 'POST',
+                body: files,
+                auth_needed: true
             }
         }).then(response => {
             dispatch({
@@ -85,24 +104,6 @@ export const exportSamples = parameters => {
         })
     }
 }
-
-// export const export = parameters => {
-//     return (dispatch) => {
-//         dispatch({
-//             [CALL_API]: {
-//                 endpoint: '/export',
-//                 method: 'GET',
-//                 body: parameters,
-//                 auth_needed: true
-//             }
-//         }).then(response => {
-//             dispatch({
-//                 type: 'DISPLAY_RESULTS',
-//                 response: response
-//             })
-//         })
-//     }
-// }
 
 export const fetchSampleContent = () => {
     

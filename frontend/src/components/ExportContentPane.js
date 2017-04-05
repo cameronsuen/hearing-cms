@@ -2,10 +2,6 @@ import React from 'react'
 import PopulatedSearchResults from '../containers/PopulatedSearchResults'
 import PopulatedSearch from '../containers/PopulatedSearch'
 
-const rightAlign = {
-
-}
-
 const ExportContentPane = () => (
     <div className="container-fluid">
         <div className="row">
@@ -17,10 +13,6 @@ const ExportContentPane = () => (
         <div className="row">
             <div className="col-md-12">
                 <PopulatedSearchResults/>
-            </div>
-        </div>
-        <div className="row">
-            <div className="col-md-12">
             </div>
         </div>
     </div>
