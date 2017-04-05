@@ -14,61 +14,85 @@ use Exception;
 class ImportController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Update validation results of a particular sample
+     * import particular samples in .zip
      *
      * @return Array
      */
-    public function importFunc(Request $request)
+    public function import(Request $request, Zipper $zipper)
     {
-	    // Get and validate request inputs
-        try {
-            $file = $request->input('file');
+        $zipFile = $request->input('zipFile');
+
+        // unzip the zip file and put them in the temp folder
+        Zipper::make($zipFile)->extractTo('storage/temp', array(''), Zipper::WHITELIST);
         
-            // Authenticate the user
-            $result = DB::select("SELECT password, role FROM users WHERE username=:username", ['username'=>$username]);
 
-            if (Hash::check($password, $result[0]->password)) {
-                // Build and return the access token
-                $token = $this->buildToken();
-                return response()->json(['access_token' => (string)$token, 'role' => $result[0]->role]);
+        
+        // $query = "SELECT s.sample FROM sample s INNER JOIN ipa i ON i.id = s.id WHERE 1=1";
+        
+        // $params = array();
 
-            } else {
-                throw new Exception('Failed to upload the file');
-            }
+        // if (isset($gender)) {
+        //     $query .= " AND gender=:gender";
+        //     $params['gender'] = $gender;
+        // }
 
-        } catch(Exception $e) {
-            // Returns an error message and response code 400 if error occurs
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
+        // if (isset($username)) {
+        //     $query .= " AND username=:username";
+        //     $params['username'] = $username;
+        // }
+
+        // if (isset($min_age)) {
+        //     $query .= " AND age >=:min_age";
+        //     $params['min_age'] = $min_age;
+        // }
+
+        // if (isset($max_age)) {
+        //     $query .= " AND age <=:max_age";
+        //     $params['max_age'] = $max_age;
+        // }
+
+        // if (isset($validPercent)) {
+        //     $query .= " AND correct/(correct + incorrect + unsure + noise) >=:validPercent"; 
+        //     $params['validPercent'] = $validPercent;
+        // }
+
+        // if (isset($vowel)) {
+        //     $query .= " AND vowel=:vowel";
+        //     $params['vowel'] = $vowel;
+        // }
+
+        // if (isset($consoant)) {
+        //     $query .= " AND consonant=:consonant";
+        //     $params['consonant'] = $consonant;
+        // }
+
+        // $results = DB::select($query, $params);
+
+        // // Build the filename by timestamp
+        // $filename = time().'.zip';
+        
+        // $status='';
+        // if (sizeof($results)==0){
+        //     $status = 'empty result retruned! (line 55)';
+        //     return response()->json(['error' => $status], 400);
+        // }
+
+        // for ($i=0;$i<sizeof($results);$i++){
+   
+        //     $data[$i] = $results[$i]->sample;
+        //     $files = '../storage/app/samples/'.$data[$i];
+
+        //     // Zip the files and get Status
+        //     $status = $zipper->make('../storage/app/exports/'.$filename)->add($files)->getStatus();
+        // }
+        
+
+        // // Return the filename of the zip files
+        // if ($status == 'No error') {
+        //     return response()->json(['filename' => $filename], 200);
+        // } else {
+        //     return response()->json(['error' => $status], 400);
+        // }
     }
-
-    /**
-     * Build the access token
-     *
-     * @return string
-     */
-    private function buildToken() {
-
-        $signer = new Sha256();
-
-        $token = (new Builder())->setIssuer('hearing-cms.api.dev')
-            ->setAudience('hearing-cms.client.dev') 
-            ->setIssuedAt(time())
-            ->setNotBefore(time())
-            ->setExpiration(time()+3600)
-            ->sign($signer, 'testing')
-            ->getToken();
-
-        return $token; 
-    } 
 
 }
