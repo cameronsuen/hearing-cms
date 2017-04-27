@@ -25,6 +25,8 @@ $app->get('/getConsonant', 'IPAController@getConsonant');
 
 $app->post('/authenticate', 'AuthenticateController@authenticate');
 
+$app->post('/importzip', 'ImportController@importzip');
+
 $app->post('/import', 'ImportController@import');
 
 $app->get('/samples', 'SampleController@get');
