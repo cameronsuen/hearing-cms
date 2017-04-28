@@ -25,34 +25,20 @@ class ImportController extends Controller
         
         $zipFile = $request->file('zipFile');
 
-
         $logFiles = $zipper->make($zipFile)->listFiles(); 
+        
         // unzip the zip file and put them in the temp folder
         $zipper->make($zipFile)->extractTo('../storage/temp');
-        // Zipper::make($zipFile)->folder('test')->extractTo('storage');
         
         //for each file in zip
-        foreach ($logFiles as &$filename) {
-         //  echo $value;
+        foreach ($logFiles as $filename) {
             $tempfilename = str_replace(".wav","",$filename);
-            //
-             $attributes = explode ( '_', $tempfilename);
+            $attributes = explode ( '_', $tempfilename);
 
-
-
-             //no vowel
-            if(substr_count($tempfilename, '_')==5){
+            //no vowel
+            if(substr_count($tempfilename, '_') == 6){
+                $hearing_prob = $attributes[0] == 'HI';
                 $vowel = '';
-                $consonant  = substr($attributes[0], 0, -1);
-                $tone =  substr($attributes[0], -1);
-                $recorder = $attributes[1];
-                $gender = $attributes[2];
-                $age = $attributes[3];
-                $model = $attributes[4];
-                $timestamp = $attributes[5];
-                //have vowel
-            } else if(substr_count($tempfilename, '_')==6){
-               $vowel= $attributes[0] ;
                 $consonant  = substr($attributes[1], 0, -1);
                 $tone =  substr($attributes[1], -1);
                 $recorder = $attributes[2];
@@ -61,39 +47,46 @@ class ImportController extends Controller
                 $model = $attributes[5];
                 $timestamp = $attributes[6];
 
+            // Contains vowel
+            } else if(substr_count($tempfilename, '_') == 7){
+                $hearing_prob = $attributes[0] == 'HI';
+                $vowel= $attributes[1] ;
+                $consonant  = substr($attributes[2], 0, -1);
+                $tone =  substr($attributes[2], -1);
+                $recorder = $attributes[3];
+                $gender = $attributes[4];
+                $age = $attributes[5];
+                $model = $attributes[6];
+                $timestamp = $attributes[7];
+
             } else{
                 echo "wrong file_name";
             }
-           //  $query = ("select id from ipa where vowel =:vowel and consonant =:consonant and tone =:tone");
-           //  $params['vowel'] = $vowel;
-           //  $params['consonant'] = $consonant;
-           //  $params['tone'] = intval($tone);
-
-
-           // $wordid = DB::select($query, $params);
-          
             //hardcode here
-            $wordid=2;
+            $query1 = "SELECT id FROM ipa WHERE vowel=:vowel AND consonant=:consonant AND tone=:tone";
 
-           $query2 = "Insert into sample (word_id,background_id,recorder,stamp,gender,age,hearing_prob,phone,sample,correct,incorrect,unsure,noise)
-            VALUES (:wordid,1, :recorder,0,:gender,:age,0,:model,:filename,0,0,0,0);";
 
-            $params['wordid'] = intval($wordid);
+            $query2 = "INSERT INTO sample (word_id,background_id,recorder,stamp,gender,age,hearing_prob,phone,sample,correct,incorrect,unsure,noise) 
+                VALUES (:word_id, 1, :recorder, :stamp, :gender, :age, :hearing_prob, :model, :filename, 0, 0, 0, 0);";
+
             $params['recorder'] = 'test';
-        //    $params['recorder'] = $recorder;
-           // $params['timestamp'] = $timestamp+0;
             $params['gender'] = $gender;
             $params['age'] = intval($age);
             $params['model'] = $model;
             $params['filename'] = $filename;
+            $params['hearing_prob'] = $hearing_prob;
+            $params['stamp'] = date('Y-m-d H:m:s', $timestamp);
 
-             $result = DB::select($query2, $params);
+            $id_result = DB::select($query1, ['vowel' => $vowel, 'consonant' => $consonant, 'tone' => $tone]); 
 
+            var_dump($id_result);
+
+            $params['word_id'] = $id_result[0]->id;
+
+            $result = DB::select($query2, $params);
 
         }   
 
     }
-
-
 
 }
